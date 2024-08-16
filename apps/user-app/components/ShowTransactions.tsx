@@ -3,12 +3,6 @@ import { useEffect, useState } from "react"
 import axios from "axios";
 import { Card } from "@repo/ui/card";
 
-
-// amount
-
-// "HDFC Bank"
-// startTime
-
 export function ShowTransactions() {
 const [data, setData] = useState("");
 
