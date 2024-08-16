@@ -1,6 +1,7 @@
+import { ShowTransactions } from "../../../components/ShowTransactions";
 
 export default function() {
     return <div>
-        Transactions
+        <ShowTransactions />
     </div>
 }
