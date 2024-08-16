@@ -4,7 +4,6 @@ import prisma from "@repo/db/client";
 
 export async function GET() {
     const session = await getServerSession(authOptions);
-    console.log("Session", session)
     if (!session) {
         return Response.json({
             message: "Unauthorized request"

@@ -2,7 +2,7 @@ import { Card } from "@repo/ui/card"
 
 type Transfer = {
     amount: number;
-    timestamp: string; // Assuming timestamp is a string from the API
+    time: string; // Assuming timestamp is a string from the API
 };
 
 export const TransferHistory = ({
@@ -17,12 +17,12 @@ export const TransferHistory = ({
             </div>
         </Card>
     }
+
     return (
         <Card title="Recent Transactions">
             <div className="pt-2">
                 {transfer.map((x, index) => {
-                    // Convert timestamp string to Date object
-                    const date = new Date(x.timestamp);
+                    const date = new Date(x.time);
                     return (
                         <div key={index} className="flex justify-between">
                             <div>
@@ -32,7 +32,7 @@ export const TransferHistory = ({
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                + Rs {x.amount / 100}
+                                - Rs {x.amount / 100}
                             </div>
                         </div>
                     );

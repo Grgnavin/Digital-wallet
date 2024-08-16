@@ -8,6 +8,11 @@ import { p2pTransfer } from "../app/lib/actions/p2pTransfer";
 import { TransferHistory } from "./TransferHistory";
 import axios from "axios";
 
+type Transfer = {
+    amount: number;
+    timestamp: string; // Assuming timestamp is a string from the API
+};
+
 export function SendCard() {
     const [number, setNumber] = useState("");
     const [data, setData] = useState([]);
@@ -18,7 +23,12 @@ export function SendCard() {
         const getTransfer = async() => {
             try {
                 const res = await axios.get('/api/getTransfer', { withCredentials: true });
-                setData(res.data);
+                const resData = Array.isArray(res.data?.res) ? res.data?.res : [];
+                const formattedData: any = resData.map((x: Transfer) => ({
+                    amount: x.amount,
+                    time: x.timestamp,
+                }));
+                setData(formattedData)
             } catch (error) {
                 console.error(error);
             }
@@ -30,6 +40,7 @@ export function SendCard() {
         try {
             await p2pTransfer(number, Number(amount) * 100);
             setRefresh(prev => !prev); 
+            setAmount("");
         } catch (error) {
             console.error('Error sending transfer:', error);
         }
