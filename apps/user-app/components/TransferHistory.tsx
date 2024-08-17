@@ -32,7 +32,7 @@ export const TransferHistory = ({
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                - Rs {x.amount / 100}
+                                Rs {x.amount / 100}
                             </div>
                         </div>
                     );
