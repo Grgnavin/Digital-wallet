@@ -16,7 +16,7 @@ The Digital Wallet project replicates functionalities similar to eSewa, allowing
 
 1. Clone the repository.
 2. Navigate to the project directory.
-4. Replace the `.env` files located in `/app/user-app` (for CORS configuration) and `/packages/db` (for database URL).
+4. Replace the `.env` files located in `/app/user-app` (NEXT AUTH URL && JWT SECRET) and `/packages/db` (for database URL).
 5. Execute `npx prisma migrate dev` followed by `npx prisma generate`.
 3. Run `npm install` or `yarn install` globally(in root folder).
 6. Start the User App by navigating to `/app/user-app` and running `npm run dev`.
@@ -32,7 +32,7 @@ The Digital Wallet project replicates functionalities similar to eSewa, allowing
 
 The project follows a monorepo structure with the following key directories:
 
-- `/apps`: Contains both Next.js frontend projects (User App & Merchant App).
+- `/apps`: Contains both Next.js frontend projects (User App & Merchant App && Nodejs Backend).
 - `/packages`: Includes global setups like Recoil for state management, UI components, and Prisma for database management.
 
 ## Contribution Guidelines
