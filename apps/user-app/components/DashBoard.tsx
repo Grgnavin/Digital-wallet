@@ -83,7 +83,7 @@ const DashBoard = () => {
                                         <button className="bg-purple-600 text-white py-2 rounded-lg shadow-md hover:bg-purple-700"
                                         onClick={TransferMoney}
                                         >
-                                            Transfer Money
+                                            Load Money
                                         </button>
                                         <button className="bg-green-600 text-white py-2 rounded-lg shadow-md hover:bg-green-700"
                                         onClick={SeeTransactions}
@@ -93,7 +93,7 @@ const DashBoard = () => {
                                         <button className="bg-blue-600 text-white py-2 rounded-lg shadow-md hover:bg-blue-700"
                                         onClick={LoadMoney}
                                         >
-                                            Load Money
+                                            Send Money
                                         </button>
                                     </div>
                                 </div>
