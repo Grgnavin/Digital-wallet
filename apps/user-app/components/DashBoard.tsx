@@ -9,7 +9,9 @@ import { useRouter } from 'next/navigation';
 const DashBoard = () => {
     const [user, setUser] = useState(null);
     const [balance, setBalance] = useState(0);
+    const [txns, setTxns] = useState([]);
     const router = useRouter();
+
     useEffect(() => {
         async function GetUser() {
             try {
@@ -21,24 +23,28 @@ const DashBoard = () => {
                 console.log("Error while fetching data", error);
             }
         }
-        GetUser();
-    }, [])
-
-    useEffect(() => {
         async function GetBalance() {
             try {
                 const res =await axios.get('/api/balance', {
                     withCredentials: true
                 })
-                console.log("Result", res.data?.blc);
                 setBalance(res.data?.blc);
             } catch (error) {
                 console.log("Error while fetching data", error);
             }
         }
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('/api/showTransaction', { withCredentials: true });
+                setTxns(res.data?.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
         GetBalance();
+        GetUser();
     }, [])
-
     
     const username = user?.name || "User";
 
@@ -53,7 +59,9 @@ const DashBoard = () => {
     const LoadMoney = () => {
         router.push('/p2p');
     }
-
+    const onRamp = txns ? txns.onRamp : [];
+    console.log("OnRamp", onRamp);
+    
     return (
         <div className="w-full p-4">
             <div className="text-4xl text-[#6a51a6] pt-8 mb-8 font-bold text-center">
@@ -121,23 +129,23 @@ const DashBoard = () => {
 
             {/* Middle Section - Recent Transactions */}
             <div className="mt-8">
-                <Card title="Recent Transactions">
+            <Card title="Recent Transactions">
                     <div className="text-lg font-medium">
-                        {/* Placeholder for recent transactions */}
-                        <ul className="space-y-2">
-                            <li className="flex justify-between">
-                                <span>Payment to ABC Store</span>
-                                <span>- NPR 1500</span>
-                            </li>
-                            <li className="flex justify-between">
-                                <span>Received from XYZ</span>
-                                <span>+ NPR 2000</span>
-                            </li>
-                            <li className="flex justify-between">
-                                <span>Transfer to John Doe</span>
-                                <span>- NPR 500</span>
-                            </li>
-                        </ul>
+                        {/* Display recent transactions */}
+                        {onRamp ? (
+                            <ul className="space-y-2">
+                                {onRamp.map((txn) => (
+                                    <li key={txn.id} className="flex justify-between">
+                                        <span>{`Received from ${txn.provider}`}</span>
+                                        <span className={txn.amount >= 0 ? 'text-green-500' : 'text-red-500'}>
+                                            {txn.amount >= 0 ? `+ NPR ${txn.amount / 100}` : `- NPR ${Math.abs(txn.amount)}`}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No recent transactions available.</p>
+                        )}
                     </div>
                 </Card>
             </div>
