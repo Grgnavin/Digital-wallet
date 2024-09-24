@@ -1,8 +1,6 @@
 "use client";
 import { Card } from '@repo/ui/card'
 import React, { useEffect, useState } from 'react'
-import { GetName } from '../app/lib/actions/getUserDetails'
-import { getBalance } from '../app/(dashboard)/transfer/page';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
@@ -23,6 +21,19 @@ const DashBoard = () => {
                 console.log("Error while fetching data", error);
             }
         }
+        const fetchData = async () => {
+            try {
+                const res = await axios.get('/api/showTransaction', { withCredentials: true });
+                setTxns(res.data?.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+        GetUser();
+    }, [balance])
+    
+    useEffect(() => {
         async function GetBalance() {
             try {
                 const res =await axios.get('/api/balance', {
@@ -33,19 +44,13 @@ const DashBoard = () => {
                 console.log("Error while fetching data", error);
             }
         }
-        const fetchData = async () => {
-            try {
-                const res = await axios.get('/api/showTransaction', { withCredentials: true });
-                setTxns(res.data?.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchData();
         GetBalance();
-        GetUser();
-    }, [])
-    
+         // Call GetBalance when transactions change
+        if (txns.length > 0) {
+            GetBalance();
+        }
+    }, [txns]);
+
     const username = user?.name || "User";
 
     const TransferMoney = () => {
@@ -60,7 +65,6 @@ const DashBoard = () => {
         router.push('/p2p');
     }
     const onRamp = txns ? txns.onRamp : [];
-    console.log("OnRamp", onRamp);
     
     return (
         <div className="w-full p-4">
